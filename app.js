@@ -7,6 +7,17 @@ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogni
 // WebSpeechAPI is supported by Firefox and Chrome
 //  window.webkitSpeechRecognition => for Chrome
 
+const greetings = [
+    'I am doing good, how about you?',
+    'I am doing fine, you have a great day sir'
+];
+
+const weather = [
+    'It is a beautiful weather outside',
+    'The weather looks good for the day',
+    'You may expect a tiny drizzle, to make the day more romantic'
+];
+
 const recognition = new SpeechRecognition();
 
 recognition.onstart = function(){ // When the button is clicked  
@@ -23,6 +34,7 @@ recognition.onresult = function(event){ // When the button is clicked
 
     const transcript = event.results[current][0].transcript; // This extracts the current seech text from the parameter(2 levels)
     content.textContent = transcript; // Accessing the actual text and sending to teh <h3> through it's class name
+    readOutLoud(transcript); // Passing in the speech converted to the text, as the message to readoutloud()
 };
 
 // onspeechend() is another alternative for detecting when the user has stopped talking
@@ -33,3 +45,27 @@ recognition.onresult = function(event){ // When the button is clicked
 button.addEventListener('click', () => {
     recognition.start();
 });
+
+// SpeechSysthesis Feature
+function readOutLoud(message){
+    const speech =  new SpeechSynthesisUtterance(); // Creating an object of SpeechSynthesisUtterance
+    
+    speech.text = "You may start talking";  
+
+    if(message.includes('how are you')){
+        const finalText = greetings[Math.floor(Math.random() * greetings.length)];
+        speech.text = finalText;
+    }
+    if(message.includes('weather')){
+        const weatherReport = weather[Math.floor(Math.random() * weather.length)];
+        speech.text = weatherReport;
+    }
+
+
+
+    speech.volume = 1;
+    speech.rate = 1;
+    speech.pitch = 1;
+
+    window.speechSynthesis.speak(speech);
+}
