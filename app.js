@@ -15,7 +15,7 @@ const greetings = [
 const weather = [
     'It is a beautiful weather outside',
     'The weather looks good for the day',
-    'You may expect a tiny drizzle, to make the day more romantic'
+    'You may expect a tiny drizzle later today, to make the day more romantic'
 ];
 
 const recognition = new SpeechRecognition();
